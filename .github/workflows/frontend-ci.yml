@@ -34,6 +34,15 @@ jobs:
         run: npm test --if-present
         working-directory: frontend
 
+      # Upload the dist/ folder (production build output) for inspection and grading
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: frontend-dist
+          path: frontend/dist
+          retention-days: 30
+
       # Upload the frontend folder (or build output) as an artifact for later jobs
       - name: Upload frontend artifact
         uses: actions/upload-artifact@v3

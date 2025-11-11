@@ -36,6 +36,15 @@ jobs:
         run: npm test --if-present
         working-directory: backend
 
+      # Upload backend build output (if present) for inspection
+      - name: Upload backend build artifact
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: backend-build
+          path: backend
+          retention-days: 30
+
       # Upload the backend folder (or build output) as an artifact for later jobs
       - name: Upload backend artifact
         uses: actions/upload-artifact@v3
