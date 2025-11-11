@@ -1,0 +1,51 @@
+name: Frontend CD (Deploy to Vercel)
+
+# Deploy frontend to Vercel on push to main
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Setup Node.js 18
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      # Install frontend dependencies
+      - name: Install frontend dependencies
+        run: npm ci
+        working-directory: frontend
+
+      # Build frontend (no-op if no build script)
+      - name: Build frontend
+        run: npm run build --if-present
+        working-directory: frontend
+
+      # Deploy to Vercel using the Vercel CLI. Requires VERCEL_TOKEN, VERCEL_PROJECT_ID, VERCEL_ORG_ID secrets.
+      - name: Deploy to Vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+        run: |
+          if [ -z "$VERCEL_TOKEN" ] || [ -z "$VERCEL_PROJECT_ID" ] || [ -z "$VERCEL_ORG_ID" ]; then
+            echo "Missing Vercel secrets. Please set VERCEL_TOKEN, VERCEL_PROJECT_ID and VERCEL_ORG_ID in repository secrets.";
+            exit 1;
+          fi
+
+          echo "Installing Vercel CLI"
+          npm install -g vercel@latest
+
+          # Deploy from the frontend directory. Use --token and --confirm to run non-interactively.
+          # The CLI supports passing a project id via --project; org/scope flags can differ by CLI version.
+          echo "Running vercel deploy"
+          cd frontend
+          npx vercel --prod --token "$VERCEL_TOKEN" --confirm --project "$VERCEL_PROJECT_ID" --org "$VERCEL_ORG_ID"

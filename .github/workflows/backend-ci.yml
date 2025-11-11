@@ -1,0 +1,44 @@
+name: Backend CI
+
+# Run CI for backend on push to main
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    # Use a hosted runner
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Use Node.js v18
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      # Install dependencies for backend
+      - name: Install backend dependencies
+        run: npm ci
+        working-directory: backend
+
+      # Build backend (runs only if a `build` script is present)
+      - name: Build backend
+        run: npm run build --if-present
+        working-directory: backend
+
+      # Run backend tests if present
+      - name: Run backend tests
+        run: npm test --if-present
+        working-directory: backend
+
+      # Upload the backend folder (or build output) as an artifact for later jobs
+      - name: Upload backend artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: backend-artifact
+          path: backend
