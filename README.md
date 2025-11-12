@@ -75,14 +75,14 @@ The frontend displays the application with health check status showing backend c
 #### Backend Deployment
 The Express.js backend is successfully deployed to Render with MongoDB Atlas integration:
 
-![Render Backend Deploy](./screenshots/Render_Backend\ Deploy.png)
+![Render Backend Deploy](./screenshots/Render_Backend_Deploy.png)
 
 The backend service is running and ready to receive API requests from the frontend.
 
 #### Environment Configuration
 Vercel frontend environment variables are properly configured with the backend API URL:
 
-![Vercel Secrets and Variables](./screenshots/Vercel\ secrets\ and\ variables.png)
+![Vercel Secrets and Variables](./screenshots/Vercel_Secrets_and_Variables.png)
 
 The `VITE_API_BASE_URL` environment variable points to the Render backend, enabling the frontend to communicate with the API.
 
