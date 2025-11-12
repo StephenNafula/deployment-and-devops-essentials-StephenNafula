@@ -12,7 +12,7 @@ export default function App() {
 
     async function checkHealth() {
       try {
-        const res = await fetch(`${apiBase}/health`)
+        const res = await fetch(`${apiBase}/api/health`)
         if (cancelled) return
         if (!res.ok) {
           setMessage(`Backend error: ${res.status} ${res.statusText}`)
