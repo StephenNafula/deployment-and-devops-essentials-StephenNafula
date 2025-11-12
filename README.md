@@ -56,6 +56,45 @@ The assignment includes templates for setting up GitHub Actions workflows:
 - `frontend-cd.yml`: Deploys the frontend to your chosen platform
 - `backend-cd.yml`: Deploys the backend to your chosen platform
 
+## Deployment Verification
+
+### Live Deployment URLs
+- **Frontend**: https://deployment-and-devops-essentials-st.vercel.app/
+- **Backend API**: https://deployment-and-devops-essentials-fdxh.onrender.com
+- **GitHub Repository**: https://github.com/StephenNafula/deployment-and-devops-essentials-StephenNafula
+
+### Deployment Screenshots
+
+#### Frontend Deployment
+The React frontend is successfully deployed to Vercel and communicating with the backend API:
+
+![Frontend Deployed](./screenshots/Frontend_deployed.png)
+
+The frontend displays the application with health check status showing backend connectivity (`Backend: ok`).
+
+#### Backend Deployment
+The Express.js backend is successfully deployed to Render with MongoDB Atlas integration:
+
+![Render Backend Deploy](./screenshots/Render_Backend\ Deploy.png)
+
+The backend service is running and ready to receive API requests from the frontend.
+
+#### Environment Configuration
+Vercel frontend environment variables are properly configured with the backend API URL:
+
+![Vercel Secrets and Variables](./screenshots/Vercel\ secrets\ and\ variables.png)
+
+The `VITE_API_BASE_URL` environment variable points to the Render backend, enabling the frontend to communicate with the API.
+
+## Deployment (summary)
+
+See `DEPLOYMENT.md` for step-by-step instructions for deploying the backend and frontend, configuring environment variables, setting up CI/CD (Render & Vercel examples), enabling HTTPS, and adding monitoring and logging. Important repository secrets you will need to add under GitHub → Settings → Secrets & variables → Actions:
+
+- `RENDER_API_KEY` and `RENDER_SERVICE_ID` (for Render backend CD workflow)
+- `VERCEL_TOKEN`, `VERCEL_PROJECT_ID`, and `VERCEL_ORG_ID` (for Vercel frontend CD workflow)
+
+If you prefer platform-native deploys, follow the platform UI (Render or Vercel) and add the same environment variables there. `frontend/vercel.json` contains recommended caching headers and SPA routing for Vercel deployments.
+
 ## Submission
 
 Your work will be automatically submitted when you push to your GitHub Classroom repository. Make sure to:
