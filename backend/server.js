@@ -14,6 +14,17 @@ app.use(helmet())
 // Logging - concise format in dev, combined in production
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'))
 
+// CORS — allow requests from frontend domain (or wildcard for development)
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', process.env.CORS_ORIGIN || '*')
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200)
+  }
+  next()
+})
+
 app.use(express.json())
 
 // Health route that also reports db state when connected
